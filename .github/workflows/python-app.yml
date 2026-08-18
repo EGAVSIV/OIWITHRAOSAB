@@ -2,17 +2,22 @@ name: OI Decay Calculation Engine
 
 on:
   schedule:
-    # Runs every 5 minutes during NSE market hours (03:45 UTC to 10:00 UTC, Mon-Fri)
     - cron: '*/5 3-9 * * 1-5'
-  workflow_dispatch: # Enables manual run from Actions tab
+  workflow_dispatch:
+
+# Add this concurrency block to prevent overlapping deployments:
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   run-engine:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -32,7 +37,6 @@ jobs:
           UPSTOX_TOKEN: ${{ secrets.UPSTOX_TOKEN }}
           FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
         run: |
-          # Points to the correct script location inside the engine folder
           python engine/calculationengine.py
 
       - name: Commit and Push Generated JSON Data
