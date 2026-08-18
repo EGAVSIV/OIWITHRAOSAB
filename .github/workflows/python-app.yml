@@ -4,7 +4,7 @@ on:
   schedule:
     # Runs every 5 minutes during NSE market hours (03:45 UTC to 10:00 UTC, Mon-Fri)
     - cron: '*/5 3-9 * * 1-5'
-  workflow_dispatch:
+  workflow_dispatch: # Enables manual run from Actions tab
 
 permissions:
   contents: write
@@ -12,6 +12,7 @@ permissions:
 jobs:
   run-engine:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -31,14 +32,14 @@ jobs:
           UPSTOX_TOKEN: ${{ secrets.UPSTOX_TOKEN }}
           FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
         run: |
-          # If keeping calculationengine.py in root:
-          python calculationengine.py
+          # Points to the correct script location inside the engine folder
+          python engine/calculationengine.py
 
-      - name: Commit and Push Updated JSON Data
+      - name: Commit and Push Generated JSON Data
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/data/ data/
+          git add docs/data/
           git status
           git diff-index --quiet HEAD || git commit -m "chore: auto-update market JSON data [skip ci]"
           git push
