@@ -49,7 +49,7 @@
   }
   .brand h1{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;margin:0;letter-spacing:.2px;}
   .brand .sub{font-size:11px;color:var(--text-muted);margin-top:1px;}
-  .status-cluster{display:flex;align-items:center;gap:16px;font-size:12px;color:var(--text-muted);}
+  .status-cluster{display:flex;align-items:center;gap:16px;font-size:12px;color:var(--text-muted);flex-wrap:wrap;}
   .pill{
     display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:20px;
     border:1px solid var(--border);background:var(--panel);
@@ -59,6 +59,25 @@
   .dot.pulse{animation:pulse 2s infinite;}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.55);}70%{box-shadow:0 0 0 6px rgba(34,197,94,0);}100%{box-shadow:0 0 0 0 rgba(34,197,94,0);}}
   #clock{font-family:'IBM Plex Mono',monospace;color:var(--text);}
+
+  /* Dynamic Sync Controls Component */
+  .sync-controls{
+    display:flex;align-items:center;gap:10px;background:var(--panel-2);
+    border:1px solid var(--border);padding:4px 10px;border-radius:20px;font-size:12px;
+  }
+  .sync-btn{
+    background:linear-gradient(135deg,var(--teal),#0a7c7b);
+    color:#04211f;border:none;padding:4px 10px;border-radius:12px;
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:11px;
+    cursor:pointer;transition:all 0.2s ease;
+  }
+  .sync-btn:hover{opacity:0.9;transform:scale(1.02);}
+  .sync-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+  .sync-label{display:flex;align-items:center;gap:4px;cursor:pointer;color:var(--text);}
+  .sync-select{
+    background:var(--panel);border:1px solid var(--border);color:var(--text);
+    padding:2px 6px;border-radius:4px;font-family:'IBM Plex Mono',monospace;font-size:11px;
+  }
 
   /* ---------- tabs ---------- */
   nav.tabs{
@@ -143,6 +162,21 @@
     </div>
   </div>
   <div class="status-cluster">
+    <!-- SYNC CONTROLS IN HEADER -->
+    <div class="sync-controls">
+      <button class="sync-btn" id="btn-force-sync" onclick="triggerForceSync()">⚡ SYNC NOW</button>
+      <label class="sync-label">
+        <input type="checkbox" id="auto-sync-toggle" onchange="toggleAutoSync(this.checked)" checked>
+        Auto
+      </label>
+      <select class="sync-select" id="sync-interval-select" onchange="updateSyncInterval(this.value)">
+        <option value="1">1m</option>
+        <option value="3">3m</option>
+        <option value="5" selected>5m</option>
+        <option value="10">10m</option>
+      </select>
+    </div>
+
     <div class="pill"><span class="dot pulse" id="live-dot"></span><span id="market-status">checking…</span></div>
     <div class="pill">Last sync&nbsp;<span class="mono" id="last-sync" style="color:var(--text)">—</span></div>
     <div class="pill" id="clock">--:--:--</div>
@@ -210,6 +244,15 @@
 const DATA_BASE = "data";
 let SCAN_DATA = null, CHAIN_DATA = null, SYMBOLS = [];
 let scanSort = {key:null, dir:1};
+
+// Sync State Variables
+let autoSyncTimer = null;
+let syncIntervalMinutes = 5;
+
+// Repository configuration for optional direct GitHub Actions dispatch
+const REPO_OWNER = "YOUR_GITHUB_USERNAME"; 
+const REPO_NAME = "OIWITHRAOSAB";
+const WORKFLOW_ID = "scanner.yml";
 
 async function fetchJSON(path){
   try{
@@ -452,7 +495,7 @@ function renderChain(sym){
   wrap.innerHTML = `<div class="desc" style="margin-bottom:10px;">Spot: <span class="mono" style="color:var(--text)">${info.spot}</span> · Expiry: <span class="mono" style="color:var(--text)">${info.expiry}</span> · Updated: <span class="mono" style="color:var(--text)">${fmtTime(info.updated_at)}</span></div>` + html;
 }
 
-/* ---------------- INIT ---------------- */
+/* ---------------- INIT & SYNC CONTROLS ---------------- */
 function populateSelects(){
   const opts = SYMBOLS.map(s=>`<option value="${s}">${s}</option>`).join("");
   const stockSel = document.getElementById("stock-select");
@@ -475,8 +518,65 @@ async function boot(){
   populateSelects();
   if(SCAN_DATA && SCAN_DATA.updated_at) document.getElementById("last-sync").textContent = fmtTime(SCAN_DATA.updated_at);
 }
+
+// Auto-Sync Manager
+function toggleAutoSync(isEnabled) {
+  if (autoSyncTimer) {
+    clearInterval(autoSyncTimer);
+    autoSyncTimer = null;
+  }
+  if (isEnabled) {
+    autoSyncTimer = setInterval(() => {
+      boot();
+    }, syncIntervalMinutes * 60 * 1000);
+  }
+}
+
+function updateSyncInterval(newMinutes) {
+  syncIntervalMinutes = parseInt(newMinutes, 10);
+  const toggle = document.getElementById("auto-sync-toggle");
+  if (toggle && toggle.checked) {
+    toggleAutoSync(true);
+  }
+}
+
+// Force Sync Action
+async function triggerForceSync() {
+  const btn = document.getElementById("btn-force-sync");
+  const syncLabel = document.getElementById("last-sync");
+  btn.disabled = true;
+  btn.innerText = "SYNCING...";
+
+  // 1. Re-fetch current data with cache-busting timestamp
+  await boot();
+
+  // 2. Optional GitHub API dispatch if user has token set
+  const pat = localStorage.getItem("GH_PAT");
+  if(pat) {
+    try {
+      await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/actions/workflows/${WORKFLOW_ID}/dispatches`, {
+        method: "POST",
+        headers: {
+          "Accept": "application/vnd.github+json",
+          "Authorization": `Bearer ${pat}`,
+          "X-GitHub-Api-Version": "2022-11-28"
+        },
+        body: JSON.stringify({ ref: "main" })
+      });
+    } catch(err) {
+      console.warn("GitHub Actions dispatch skipped/failed:", err);
+    }
+  }
+
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.innerText = "⚡ SYNC NOW";
+  }, 2000);
+}
+
+// Initial Boot Sequence
 boot();
-setInterval(boot, 60000); // soft refresh of data every 60s (engine itself updates every ~5 min)
+toggleAutoSync(true);
 </script>
 </body>
 </html>
