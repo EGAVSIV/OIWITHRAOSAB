@@ -1,1 +1,1 @@
-{"updated_at": "2026-08-19 11:21:58", "decay_threshold": -5.0, "rows": []}
+{"updated_at": "2026-08-19 11:49:17", "decay_threshold": -5.0, "rows": [{"symbol": "PHOENIXLTD", "close": 1914.7, "signal": "CALL", "atm_strike": 1920.0, "ce_atm_dec": -17.48, "ce_otm1_dec": -5.25, "ce_otm2_dec": -13.46, "pe_atm_dec": 2.02, "pe_otm1_dec": 3.07, "pe_otm2_dec": 25.85}]}
