@@ -1,1 +1,1 @@
-{"updated_at": "2026-08-19 13:48:47", "decay_threshold": -5.0, "rows": [{"symbol": "LTF", "close": 318.4, "signal": "PUT", "atm_strike": 320.0, "ce_atm_dec": 82.26, "ce_otm1_dec": 22.56, "ce_otm2_dec": 48.67, "pe_atm_dec": -14.85, "pe_otm1_dec": -27.23, "pe_otm2_dec": -7.87}]}
+{"updated_at": "2026-08-19 14:28:13", "decay_threshold": -5.0, "rows": [{"symbol": "BAJAJ-AUTO", "close": 11628.0, "signal": "CALL", "atm_strike": 11600.0, "ce_atm_dec": -5.01, "ce_otm1_dec": -5.95, "ce_otm2_dec": -20.7, "pe_atm_dec": 74.39, "pe_otm1_dec": 7.6, "pe_otm2_dec": 10.88}]}
