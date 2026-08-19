@@ -1,1 +1,1 @@
-{"updated_at": "2026-08-19 13:22:05", "decay_threshold": -5.0, "rows": []}
+{"updated_at": "2026-08-19 13:48:47", "decay_threshold": -5.0, "rows": [{"symbol": "LTF", "close": 318.4, "signal": "PUT", "atm_strike": 320.0, "ce_atm_dec": 82.26, "ce_otm1_dec": 22.56, "ce_otm2_dec": 48.67, "pe_atm_dec": -14.85, "pe_otm1_dec": -27.23, "pe_otm2_dec": -7.87}]}
