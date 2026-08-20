@@ -1,1 +1,1 @@
-{"updated_at": "2026-08-20 10:55:55", "decay_threshold": -5.0, "rows": []}
+{"updated_at": "2026-08-20 11:24:39", "decay_threshold": -5.0, "rows": [{"symbol": "UPL", "close": 572.25, "signal": "CALL", "atm_strike": 570.0, "ce_atm_dec": -25.17, "ce_otm1_dec": -5.33, "ce_otm2_dec": -5.81, "pe_atm_dec": 1.78, "pe_otm1_dec": 9.5, "pe_otm2_dec": -10.84}]}
