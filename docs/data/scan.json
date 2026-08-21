@@ -1,1 +1,1 @@
-{"updated_at": "2026-08-21 09:52:48", "decay_threshold": -5.0, "rows": [{"symbol": "COFORGE", "close": 1863.0, "signal": "PUT", "atm_strike": 1860.0, "ce_atm_dec": 6.48, "ce_otm1_dec": 8.65, "ce_otm2_dec": 1.44, "pe_atm_dec": -28.15, "pe_otm1_dec": -6.73, "pe_otm2_dec": -6.37}, {"symbol": "GLENMARK", "close": 2318.5, "signal": "PUT", "atm_strike": 2320.0, "ce_atm_dec": 10.27, "ce_otm1_dec": 12.48, "ce_otm2_dec": 6.27, "pe_atm_dec": -30.0, "pe_otm1_dec": -23.42, "pe_otm2_dec": -5.13}]}
+{"updated_at": "2026-08-21 10:29:27", "decay_threshold": -5.0, "rows": []}
