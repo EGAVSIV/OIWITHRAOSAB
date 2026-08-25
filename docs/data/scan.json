@@ -1,1 +1,1 @@
-{"updated_at": "2026-08-25 11:03:09", "decay_threshold": -5.0, "rows": []}
+{"updated_at": "2026-08-25 11:30:35", "decay_threshold": -5.0, "rows": [{"symbol": "LICI", "close": 423.6, "signal": "CALL", "atm_strike": 425.0, "ce_atm_dec": -24.3, "ce_otm1_dec": -12.33, "ce_otm2_dec": -27.52, "pe_atm_dec": 5.45, "pe_otm1_dec": 3.18, "pe_otm2_dec": -28.25}]}
