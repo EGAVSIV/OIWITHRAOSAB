@@ -1,1 +1,1 @@
-{"updated_at": "2026-08-27 09:14:58", "decay_threshold": -5.0, "rows": []}
+{"updated_at": "2026-08-31 14:34:44", "decay_threshold": -5.0, "rows": [{"symbol": "COFORGE", "close": 1984.1, "signal": "PUT", "atm_strike": 1980.0, "ce_atm_dec": 9.72, "ce_otm1_dec": 2.56, "ce_otm2_dec": 14.99, "pe_atm_dec": -6.0, "pe_otm1_dec": -25.51, "pe_otm2_dec": -37.68}, {"symbol": "LTM", "close": 4536.5, "signal": "PUT", "atm_strike": 4550.0, "ce_atm_dec": 78.12, "ce_otm1_dec": 52.15, "ce_otm2_dec": 0.9, "pe_atm_dec": -10.19, "pe_otm1_dec": -9.35, "pe_otm2_dec": -6.25}]}
