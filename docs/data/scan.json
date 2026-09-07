@@ -1,1 +1,1 @@
-{"updated_at": "2026-09-04 13:02:47", "decay_threshold": -5.0, "rows": [{"symbol": "ADANIENT", "close": 2938.0, "signal": "CALL", "atm_strike": 2950.0, "ce_atm_dec": -21.67, "ce_otm1_dec": -6.1, "ce_otm2_dec": -10.48, "pe_atm_dec": 24.09, "pe_otm1_dec": 7.63, "pe_otm2_dec": 1.62}]}
+{"updated_at": "2026-09-07 13:11:32", "decay_threshold": -5.0, "rows": [{"symbol": "IOC", "close": 135.91, "signal": "PUT", "atm_strike": 135.0, "ce_atm_dec": 7.25, "ce_otm1_dec": 17.67, "ce_otm2_dec": 3.88, "pe_atm_dec": -8.73, "pe_otm1_dec": -6.16, "pe_otm2_dec": -5.5}]}
