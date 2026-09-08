@@ -1,1 +1,1 @@
-{"updated_at": "2026-09-07 13:11:32", "decay_threshold": -5.0, "rows": [{"symbol": "IOC", "close": 135.91, "signal": "PUT", "atm_strike": 135.0, "ce_atm_dec": 7.25, "ce_otm1_dec": 17.67, "ce_otm2_dec": 3.88, "pe_atm_dec": -8.73, "pe_otm1_dec": -6.16, "pe_otm2_dec": -5.5}]}
+{"updated_at": "2026-09-08 13:04:04", "decay_threshold": -5.0, "rows": [{"symbol": "MARICO", "close": 824.2, "signal": "CALL", "atm_strike": 820.0, "ce_atm_dec": -12.26, "ce_otm1_dec": -19.33, "ce_otm2_dec": -18.87, "pe_atm_dec": 8.0, "pe_otm1_dec": 29.71, "pe_otm2_dec": 26.04}]}
